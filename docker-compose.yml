@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  uns_cli:
+    build:
+      context: ./uns_cli
+      dockerfile: Dockerfile
+    container_name: uns_cli
+    # Run the UNS CLI and keep the container running
+    command: ["/bin/bash", "/usr/src/uns_cli/keep_alive.sh"]
+    depends_on:
+      - hivemq
+    networks:
+      - uns_network
+    volumes:
+      # Mount the tags.json file and keep_alive script into the container
+      - ./uns_cli/tags.json:/usr/src/uns_cli/tags.json
+      - ./uns_cli/keep_alive.sh:/usr/src/uns_cli/keep_alive.sh
+    healthcheck:
+      test: ["CMD", "test", "-f", "/usr/src/uns_cli/tags.json"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  hivemq:
+    image: hivemq/hivemq-ce:latest
+    container_name: hivemq
+    ports:
+      - "1883:1883" # MQTT default port
+      - "8080:8080" # HiveMQ Control Center (optional)
+    networks:
+      - uns_network
+    volumes:
+      # Mount custom logback configuration
+      - ./custom-logback.xml:/opt/hivemq/conf/logback.xml
+      # Persist HiveMQ data (optional)
+      - hivemq_data:/opt/hivemq/data
+      - hivemq_log:/opt/hivemq/log
+
+networks:
+  uns_network:
+    driver: bridge
+
+volumes:
+  hivemq_data:
+  hivemq_log:

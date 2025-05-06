@@ -1,0 +1,16 @@
+{
+  "tags": {
+    "US/TX/AUSTIN/AREA1/LINE1/MACHINE1/PUMP1/PRESSURE": {
+      "path": "US/TX/AUSTIN/AREA1/LINE1/MACHINE1/PUMP1/PRESSURE",
+      "name": "Pump 1 Pressure",
+      "description": "Pressure sensor for Pump 1",
+      "value": "99.9"
+    },
+    "US/TX/AUSTIN/AREA1/LINE1/MACHINE1/PUMP1/STATUS": {
+      "path": "US/TX/AUSTIN/AREA1/LINE1/MACHINE1/PUMP1/STATUS",
+      "name": "Pump 1 Status",
+      "description": "Operational status of Pump 1",
+      "value": "true"
+    }
+  }
+}
